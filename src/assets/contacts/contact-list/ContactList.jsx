@@ -6,14 +6,12 @@ import ContactItem from '../contact-item/ContactItem';
 function ContactList() {
   
   const [contacts, setContacts] = useState(contactsData.slice(0, 5));
+  const [remainingContacts, setRemainingContacts] = useState(
+    contactsData.slice(5, contactsData.length)
+  );
   
   const handleDeleteContact = (contact) => {
     setContacts(contacts.filter(c => c.id !== contact.id));
-  }
-
-  const handleAddContact = (contact) => {
-    [...contacts],
-    setContacts(contacts.push(Math.random(contacts)));
   }
 
   const sortPopularity = () => {
@@ -24,6 +22,16 @@ function ContactList() {
   const sortName = () => {
     const newOrder = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
     setContacts(newOrder);
+  }
+
+  const handleAddContact = () => {
+    const updateRemaining = [...remainingContacts];
+    let randomNumber = Math.floor(Math.random() * remainingContacts.length);
+    let randomContact = updateRemaining.splice(randomNumber, 1)[0];
+
+    const updateContacts = [...contacts, randomContact];
+    setContacts(updateContacts);
+    setRemainingContacts(updateRemaining);
   }
 
   return (
